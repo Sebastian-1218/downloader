@@ -5,6 +5,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpUtils {
+
+    public static HttpURLConnection getHttpURLConnection(String url,long startPos,long endPos) throws IOException {
+        HttpURLConnection httpURLConnection = getHttpURLConnection(url);
+        LogUtils.info("下載的区间是：{}-{}",startPos,endPos);
+        if(endPos!=0){
+            httpURLConnection.setRequestProperty("RANGE","BYTES="+startPos+"-"+endPos);
+        }else {
+            httpURLConnection.setRequestProperty("RANGE","BYTES="+startPos+"-");
+        }
+        return httpURLConnection;
+    }
     //获取连接对象
     public static HttpURLConnection getHttpURLConnection(String url) throws IOException {
         URL HttUrl = new URL(url);
